@@ -517,13 +517,13 @@ Many of the functions were written with ease-of-use in mind and sensible default
           display:block!important;
       }</style></aside>
 <ul>
-<li><p>Fast - Uses a mix of collapse, data.table, dplyr and custom C++ to be as fast and efficient as possible</p></li>
-<li><p>Consistent - Uses tidy principles where possible with emphasis on code safety</p></li>
-<li><p>Developing - It is continuously being built and improved upon</p></li>
+<li><p><strong>Fast</strong> - Uses a mix of collapse, data.table, dplyr and custom C++ to be as fast and efficient as possible</p></li>
+<li><p><strong>Consistent</strong> - Uses tidy principles where possible with emphasis on code safety</p></li>
+<li><p><strong>Developing</strong> - It is continuously being built and improved upon</p></li>
 </ul>
 </section>
-<section id="a-simple-showcase" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
-<h2>A simple showcase</h2>
+<section id="some-simple-examples" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
+<h2>Some simple examples</h2>
 <aside class="notes">
 <p>Throughout the rest of the slides, we will be using the well-known flights dataset used in the R for data science book by Hadley Wickham to showcase some of the package functionality.</p>
 <p>The data consists of flights departing from New York across the year 2013.</p>
@@ -680,6 +680,24 @@ Many of the functions were written with ease-of-use in mind and sensible default
 </div>
 </div>
 </section>
+<section id="year_months" class="slide level2 smaller" data-background-color="white" data-background-image="clock2.jpg">
+<h2>year_months</h2>
+<p>timeplyr has it’s own year-month class, inspired by the excellent zoo and tsibble packages</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">year_month</span>(<span class="fu">today</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2024 Jan"</code></pre>
+</div>
+</div>
+<p>It is very easy to create a sequence of year_months</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">year_month</span>(<span class="fu">today</span>()) <span class="sc">+</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">11</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "2024 Jan" "2024 Feb" "2024 Mar" "2024 Apr" "2024 May" "2024 Jun"
+ [7] "2024 Jul" "2024 Aug" "2024 Sep" "2024 Oct" "2024 Nov" "2024 Dec"</code></pre>
+</div>
+</div>
+</section>
 <section id="time_by" class="slide level2 smaller" data-background-color="white" data-background-image="clock2.jpg">
 <h2>time_by</h2>
 <p>The <code>time_by()</code> function is similar to dplyr’s <code>group_by()</code> but with an emphasis on dates and date-times.</p>
@@ -702,14 +720,14 @@ Many of the functions were written with ease-of-use in mind and sensible default
 </div>
 <p>Let’s work with time_intervals throughout by setting the <code>timeplyr.use_intervals</code> option to true.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">options</span>(<span class="at">timeplyr.use_intervals =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">options</span>(<span class="at">timeplyr.interval_sub_formatter =</span> \(x) <span class="fu">format</span>(x, <span class="st">"%b-%d"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">options</span>(<span class="at">timeplyr.use_intervals =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">options</span>(<span class="at">timeplyr.interval_sub_formatter =</span> \(x) <span class="fu">format</span>(x, <span class="st">"%b-%d"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Number of flights and mean departure delay per quarter</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">time_by</span>(date, <span class="st">"3 months"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean_dep_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">time_by</span>(date, <span class="st">"3 months"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean_dep_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
               date     n mean_dep_delay
@@ -745,8 +763,8 @@ Many of the functions were written with ease-of-use in mind and sensible default
 <div id="tabset-1-2">
 <p>This is just the time variable we want to specify.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">time_count</span>(<span class="at">time =</span> date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">time_count</span>(<span class="at">time =</span> date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 365 × 2
                date     n
@@ -768,8 +786,8 @@ Many of the functions were written with ease-of-use in mind and sensible default
 <div id="tabset-1-3">
 <p>These are additional variables to count which use dplyr style data-masking</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">time_count</span>(date, <span class="fu">across</span>(<span class="fu">where</span>(is.character)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">time_count</span>(date, <span class="fu">across</span>(<span class="fu">where</span>(is.character)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 316,497 × 6
                date carrier tailnum origin dest      n
@@ -791,8 +809,8 @@ Many of the functions were written with ease-of-use in mind and sensible default
 <div id="tabset-1-4">
 <p>This argument allows us to control which time unit we will aggregate our time variable to.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"2 weeks"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"2 weeks"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 27 × 2
                date     n
@@ -812,11 +830,11 @@ Many of the functions were written with ease-of-use in mind and sensible default
 </div>
 <p>If left unspecified, most of the time the <code>time_</code> functions will try to guess the time granularity through the greatest common divisor of time differences.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">abs</span>(<span class="fu">gcd_diff</span>(flights<span class="sc">$</span>time_hour))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">abs</span>(<span class="fu">gcd_diff</span>(flights<span class="sc">$</span>time_hour))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3600</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">time_diff_gcd</span>(flights<span class="sc">$</span>time_hour)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">time_diff_gcd</span>(flights<span class="sc">$</span>time_hour)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$numeric
 [1] 3600</code></pre>
@@ -827,10 +845,10 @@ Many of the functions were written with ease-of-use in mind and sensible default
 <div id="tabset-1-5">
 <p>This allows us to specify start and end times</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"2 weeks"</span>,</span>
-<span id="cb27-3"><a href="#cb27-3"></a>             <span class="at">from =</span> <span class="fu">dmy</span>(<span class="st">"01-December-2013"</span>),</span>
-<span id="cb27-4"><a href="#cb27-4"></a>             <span class="at">.by =</span> origin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"2 weeks"</span>,</span>
+<span id="cb31-3"><a href="#cb31-3"></a>             <span class="at">from =</span> <span class="fu">dmy</span>(<span class="st">"01-December-2013"</span>),</span>
+<span id="cb31-4"><a href="#cb31-4"></a>             <span class="at">.by =</span> origin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 3
    origin             date      n
@@ -854,10 +872,10 @@ Many of the functions were written with ease-of-use in mind and sensible default
 <p><code>time_type</code> controls whether we use lubridate style durations or periods.<br>
 By default, durations are used for anything more granular than a day, and periods otherwise.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">options</span>(<span class="at">timeplyr.interval_sub_formatter =</span> identity)</span>
-<span id="cb29-2"><a href="#cb29-2"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"3 months"</span>,</span>
-<span id="cb29-4"><a href="#cb29-4"></a>             <span class="at">time_type =</span> <span class="st">"period"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">options</span>(<span class="at">timeplyr.interval_sub_formatter =</span> identity)</span>
+<span id="cb33-2"><a href="#cb33-2"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="#cb33-3"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"3 months"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4"></a>             <span class="at">time_type =</span> <span class="st">"period"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
                       date     n
@@ -867,9 +885,9 @@ By default, durations are used for anything more granular than a day, and period
 3 [2013-07-01, 2013-10-01) 86326
 4 [2013-10-01, 2014-01-01) 84292</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"3 months"</span>,</span>
-<span id="cb31-3"><a href="#cb31-3"></a>             <span class="at">time_type =</span> <span class="st">"duration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"3 months"</span>,</span>
+<span id="cb35-3"><a href="#cb35-3"></a>             <span class="at">time_type =</span> <span class="st">"duration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
                                         date     n
@@ -882,10 +900,10 @@ By default, durations are used for anything more granular than a day, and period
 </div>
 <p><code>time_floor</code> Takes the minimum time and floors it to the nearest specified unit (excluding the multiple). If for example you specified <code>time_by = "3 months"</code>, <code>time_floor = TRUE</code> would round the earliest time to the nearest month.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb33-2"><a href="#cb33-2"></a>    <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"3 months"</span>,</span>
-<span id="cb33-3"><a href="#cb33-3"></a>               <span class="at">from =</span> <span class="fu">dmy</span>(<span class="st">"22-August-2013"</span>),</span>
-<span id="cb33-4"><a href="#cb33-4"></a>               <span class="at">time_floor =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href="#cb37-2"></a>    <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"3 months"</span>,</span>
+<span id="cb37-3"><a href="#cb37-3"></a>               <span class="at">from =</span> <span class="fu">dmy</span>(<span class="st">"22-August-2013"</span>),</span>
+<span id="cb37-4"><a href="#cb37-4"></a>               <span class="at">time_floor =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
                       date      n
@@ -894,10 +912,10 @@ By default, durations are used for anything more granular than a day, and period
 2 [2013-11-22, 2014-02-22)  35871
 3 NA                       215710</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb35-2"><a href="#cb35-2"></a>    <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"3 months"</span>,</span>
-<span id="cb35-3"><a href="#cb35-3"></a>               <span class="at">from =</span> <span class="fu">dmy</span>(<span class="st">"22-August-2013"</span>),</span>
-<span id="cb35-4"><a href="#cb35-4"></a>               <span class="at">time_floor =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href="#cb39-2"></a>    <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"3 months"</span>,</span>
+<span id="cb39-3"><a href="#cb39-3"></a>               <span class="at">from =</span> <span class="fu">dmy</span>(<span class="st">"22-August-2013"</span>),</span>
+<span id="cb39-4"><a href="#cb39-4"></a>               <span class="at">time_floor =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
                       date      n
@@ -911,8 +929,8 @@ By default, durations are used for anything more granular than a day, and period
 <div id="tabset-1-7">
 <p>This argument controls whether the start of the implicit time interval is returned, or whether an explicit <code>time_interval</code> is returned.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb37-2"><a href="#cb37-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"months"</span>, <span class="at">as_interval =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="#cb41-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"months"</span>, <span class="at">as_interval =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 2
    date           n
@@ -930,8 +948,8 @@ By default, durations are used for anything more granular than a day, and period
 11 2013-11-01 27268
 12 2013-12-01 28135</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb39-2"><a href="#cb39-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"months"</span>, <span class="at">as_interval =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"months"</span>, <span class="at">as_interval =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 2
                        date     n
@@ -952,9 +970,9 @@ By default, durations are used for anything more granular than a day, and period
 </div>
 <p>Sometimes the former is more useful, especially for plotting and formatting, for example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb41-2"><a href="#cb41-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"months"</span>, <span class="at">as_interval =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb41-3"><a href="#cb41-3"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">format</span>(date, <span class="st">"%B"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb45-2"><a href="#cb45-2"></a>  <span class="fu">time_count</span>(date, <span class="at">time_by =</span> <span class="st">"months"</span>, <span class="at">as_interval =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb45-3"><a href="#cb45-3"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">format</span>(date, <span class="st">"%B"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 3
    date           n month    
@@ -981,9 +999,9 @@ By default, durations are used for anything more granular than a day, and period
 <h2>Time series</h2>
 <p>We can easily convert time series to a (long) tibble</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>eu_stock <span class="ot">&lt;-</span> EuStockMarkets <span class="sc">|&gt;</span></span>
-<span id="cb43-2"><a href="#cb43-2"></a>  <span class="fu">ts_as_tibble</span>()</span>
-<span id="cb43-3"><a href="#cb43-3"></a>eu_stock</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>eu_stock <span class="ot">&lt;-</span> EuStockMarkets <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>  <span class="fu">ts_as_tibble</span>()</span>
+<span id="cb47-3"><a href="#cb47-3"></a>eu_stock</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,440 × 3
    group  time value
@@ -1001,164 +1019,165 @@ By default, durations are used for anything more granular than a day, and period
 # ℹ 7,430 more rows</code></pre>
 </div>
 </div>
+<p><code>ts_as_tibble()</code> currently supports <code>ts</code>, <code>xts</code>, <code>zoo</code> and <code>timeSeries</code> objects.</p>
 </section>
 <section id="quick-plotting" class="slide level2 smaller" data-background-color="white" data-background-image="clock2.jpg">
 <h2>Quick plotting</h2>
 <p>We can also plot univariate and multivariate time-series data using <code>time_ggplot()</code> which is just a ggplot wrapper that applies some sensible axes and formatting.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># #| output-location: column</span></span>
-<span id="cb45-2"><a href="#cb45-2"></a>eu_stock <span class="sc">|&gt;</span> </span>
-<span id="cb45-3"><a href="#cb45-3"></a>  <span class="fu">time_ggplot</span>(time, value, <span class="at">group =</span> group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># #| output-location: column</span></span>
+<span id="cb49-2"><a href="#cb49-2"></a>eu_stock <span class="sc">|&gt;</span> </span>
+<span id="cb49-3"><a href="#cb49-3"></a>  <span class="fu">time_ggplot</span>(time, value, <span class="at">group =</span> group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="output_files/figure-revealjs/unnamed-chunk-20-1.png" width="960" class="r-stretch"></section>
+<img data-src="output_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
 <section id="rolling-functions" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
 <h2>Rolling functions</h2>
 <p>timeplyr has a set of optimised functions, utilising data.table’s excellent <code>frollmean()</code> and friends. It builds upon these by incorporating a fast method for grouped calculations, as well as incorporating time-based windows.</p>
 </section>
-<section id="combing-timeplyr-and-data.table" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
-<h2>Combing timeplyr and data.table</h2>
+<section id="combining-timeplyr-and-data.table" class="slide level2 smaller" data-background-color="white" data-background-image="clock2.jpg">
+<h2>Combining timeplyr and data.table</h2>
 <h3 id="benchmark-unsorted-data-10000-groups-1m-rows">Benchmark (unsorted data, 10,000 groups, 1m rows)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb46-2"><a href="#cb46-2"></a>df <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>),</span>
-<span id="cb46-3"><a href="#cb46-3"></a>                 <span class="at">g =</span> <span class="fu">sample.int</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="cn">TRUE</span>))</span>
-<span id="cb46-4"><a href="#cb46-4"></a><span class="fu">mark</span>(df[, <span class="at">dt_mean :=</span> <span class="fu">frollmean</span>(x, <span class="at">n =</span> <span class="dv">7</span>, </span>
-<span id="cb46-5"><a href="#cb46-5"></a>                               <span class="at">align =</span> <span class="st">"right"</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb46-6"><a href="#cb46-6"></a>        <span class="at">by =</span> g])</span>
-<span id="cb46-7"><a href="#cb46-7"></a><span class="co">#&gt; Warning: Some expressions had a GC in every iteration; so filtering is</span></span>
-<span id="cb46-8"><a href="#cb46-8"></a><span class="co">#&gt; disabled.</span></span>
-<span id="cb46-9"><a href="#cb46-9"></a><span class="co">#&gt; # A tibble: 1 × 6</span></span>
-<span id="cb46-10"><a href="#cb46-10"></a><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
-<span id="cb46-11"><a href="#cb46-11"></a><span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch&gt; &lt;bch:&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;</span></span>
-<span id="cb46-12"><a href="#cb46-12"></a><span class="co">#&gt; 1 "df[, `:=`(dt_mean, frollmean(x, n … 425ms  469ms      2.13     179MB     21.3</span></span>
-<span id="cb46-13"><a href="#cb46-13"></a><span class="fu">mark</span>(df[, <span class="at">tp_mean :=</span> <span class="fu">roll_mean</span>(x, <span class="at">window =</span> <span class="dv">7</span>, </span>
-<span id="cb46-14"><a href="#cb46-14"></a>                               <span class="at">na.rm =</span> <span class="cn">FALSE</span>, <span class="at">partial =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb46-15"><a href="#cb46-15"></a>                               <span class="at">g =</span> g)])</span>
-<span id="cb46-16"><a href="#cb46-16"></a><span class="co">#&gt; # A tibble: 1 × 6</span></span>
-<span id="cb46-17"><a href="#cb46-17"></a><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
-<span id="cb46-18"><a href="#cb46-18"></a><span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch&gt; &lt;bch:&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;</span></span>
-<span id="cb46-19"><a href="#cb46-19"></a><span class="co">#&gt; 1 df[, `:=`(tp_mean, roll_mean(x, win…  27ms 27.3ms      36.7      47MB     202.</span></span>
-<span id="cb46-20"><a href="#cb46-20"></a><span class="fu">all.equal</span>(df<span class="sc">$</span>dt_mean, df<span class="sc">$</span>tp_mean)</span>
-<span id="cb46-21"><a href="#cb46-21"></a><span class="co">#&gt; [1] TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb50-2"><a href="#cb50-2"></a>df <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>),</span>
+<span id="cb50-3"><a href="#cb50-3"></a>                 <span class="at">g =</span> <span class="fu">sample.int</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="cn">TRUE</span>))</span>
+<span id="cb50-4"><a href="#cb50-4"></a><span class="fu">mark</span>(df[, <span class="at">dt_mean :=</span> <span class="fu">frollmean</span>(x, <span class="at">n =</span> <span class="dv">7</span>, </span>
+<span id="cb50-5"><a href="#cb50-5"></a>                               <span class="at">align =</span> <span class="st">"right"</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb50-6"><a href="#cb50-6"></a>        <span class="at">by =</span> g])</span>
+<span id="cb50-7"><a href="#cb50-7"></a><span class="co">#&gt; Warning: Some expressions had a GC in every iteration; so filtering is</span></span>
+<span id="cb50-8"><a href="#cb50-8"></a><span class="co">#&gt; disabled.</span></span>
+<span id="cb50-9"><a href="#cb50-9"></a><span class="co">#&gt; # A tibble: 1 × 6</span></span>
+<span id="cb50-10"><a href="#cb50-10"></a><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
+<span id="cb50-11"><a href="#cb50-11"></a><span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch&gt; &lt;bch:&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;</span></span>
+<span id="cb50-12"><a href="#cb50-12"></a><span class="co">#&gt; 1 "df[, `:=`(dt_mean, frollmean(x, n … 425ms  469ms      2.13     179MB     21.3</span></span>
+<span id="cb50-13"><a href="#cb50-13"></a><span class="fu">mark</span>(df[, <span class="at">tp_mean :=</span> <span class="fu">roll_mean</span>(x, <span class="at">window =</span> <span class="dv">7</span>, </span>
+<span id="cb50-14"><a href="#cb50-14"></a>                               <span class="at">na.rm =</span> <span class="cn">FALSE</span>, <span class="at">partial =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb50-15"><a href="#cb50-15"></a>                               <span class="at">g =</span> g)])</span>
+<span id="cb50-16"><a href="#cb50-16"></a><span class="co">#&gt; # A tibble: 1 × 6</span></span>
+<span id="cb50-17"><a href="#cb50-17"></a><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
+<span id="cb50-18"><a href="#cb50-18"></a><span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch&gt; &lt;bch:&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;</span></span>
+<span id="cb50-19"><a href="#cb50-19"></a><span class="co">#&gt; 1 df[, `:=`(tp_mean, roll_mean(x, win…  27ms 27.3ms      36.7      47MB     202.</span></span>
+<span id="cb50-20"><a href="#cb50-20"></a><span class="fu">all.equal</span>(df<span class="sc">$</span>dt_mean, df<span class="sc">$</span>tp_mean)</span>
+<span id="cb50-21"><a href="#cb50-21"></a><span class="co">#&gt; [1] TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="combing-timeplyr-and-data.table-1" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
-<h2>Combing timeplyr and data.table</h2>
+<section id="combining-timeplyr-and-data.table-1" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
+<h2>Combining timeplyr and data.table</h2>
 <p>We can use <code>window_sequence()</code> with data.table’s <code>adaptive</code> argument to easily calculate rolling stats with partial windows.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb47-2"><a href="#cb47-2"></a>w <span class="ot">&lt;-</span> <span class="fu">window_sequence</span>(<span class="fu">length</span>(x), <span class="at">k =</span> <span class="fu">length</span>(x))</span>
-<span id="cb47-3"><a href="#cb47-3"></a>data.table<span class="sc">::</span><span class="fu">frollsum</span>(x, <span class="at">n =</span> w, <span class="at">adaptive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb51-2"><a href="#cb51-2"></a>w <span class="ot">&lt;-</span> <span class="fu">window_sequence</span>(<span class="fu">length</span>(x), <span class="at">k =</span> <span class="fu">length</span>(x))</span>
+<span id="cb51-3"><a href="#cb51-3"></a>data.table<span class="sc">::</span><span class="fu">frollsum</span>(x, <span class="at">n =</span> w, <span class="at">adaptive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  1  3  6 10 15 21 28 36 45 55</code></pre>
 </div>
 </div>
 </section>
-<section id="more-rolling-madness" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
+<section id="more-rolling-madness" class="slide level2 smaller" data-background-color="white" data-background-image="clock2.jpg">
 <h2>More rolling madness</h2>
 <p>An example of a rolling sum, by group, with respect to a time index</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb49-2"><a href="#cb49-2"></a>g <span class="ot">&lt;-</span> <span class="fu">seq_id</span>(<span class="fu">rep</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb49-3"><a href="#cb49-3"></a>t <span class="ot">&lt;-</span> <span class="fu">today</span>() <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">19</span>)</span>
-<span id="cb49-4"><a href="#cb49-4"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(x, g, t)</span>
-<span id="cb49-5"><a href="#cb49-5"></a>df <span class="sc">|&gt;</span> </span>
-<span id="cb49-6"><a href="#cb49-6"></a>  <span class="fu">mutate</span>(<span class="at">sum =</span> </span>
-<span id="cb49-7"><a href="#cb49-7"></a>           <span class="fu">time_roll_sum</span>(x, <span class="at">time =</span> t, <span class="at">g =</span> g, </span>
-<span id="cb49-8"><a href="#cb49-8"></a>                         <span class="at">window =</span> <span class="st">"3 days"</span>, <span class="at">partial =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb53-2"><a href="#cb53-2"></a>g <span class="ot">&lt;-</span> <span class="fu">seq_id</span>(<span class="fu">rep</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb53-3"><a href="#cb53-3"></a>t <span class="ot">&lt;-</span> <span class="fu">today</span>() <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">19</span>)</span>
+<span id="cb53-4"><a href="#cb53-4"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(x, g, t)</span>
+<span id="cb53-5"><a href="#cb53-5"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb53-6"><a href="#cb53-6"></a>  <span class="fu">mutate</span>(<span class="at">sum =</span> </span>
+<span id="cb53-7"><a href="#cb53-7"></a>           <span class="fu">time_roll_sum</span>(x, <span class="at">time =</span> t, <span class="at">g =</span> g, </span>
+<span id="cb53-8"><a href="#cb53-8"></a>                         <span class="at">window =</span> <span class="st">"3 days"</span>, <span class="at">partial =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20 × 4
        x     g t            sum
    &lt;int&gt; &lt;int&gt; &lt;date&gt;     &lt;dbl&gt;
- 1     1     1 2024-01-25    NA
- 2     2     1 2024-01-26    NA
- 3     3     1 2024-01-27     6
- 4     4     1 2024-01-28     9
- 5     5     1 2024-01-29    12
- 6     6     2 2024-01-30    NA
- 7     7     2 2024-01-31    NA
- 8     8     2 2024-02-01    21
- 9     9     2 2024-02-02    24
-10    10     2 2024-02-03    27
-11    11     3 2024-02-04    NA
-12    12     3 2024-02-05    NA
-13    13     3 2024-02-06    36
-14    14     3 2024-02-07    39
-15    15     3 2024-02-08    42
-16    16     4 2024-02-09    NA
-17    17     4 2024-02-10    NA
-18    18     4 2024-02-11    51
-19    19     4 2024-02-12    54
-20    20     4 2024-02-13    57</code></pre>
+ 1     1     1 2024-01-26    NA
+ 2     2     1 2024-01-27    NA
+ 3     3     1 2024-01-28     6
+ 4     4     1 2024-01-29     9
+ 5     5     1 2024-01-30    12
+ 6     6     2 2024-01-31    NA
+ 7     7     2 2024-02-01    NA
+ 8     8     2 2024-02-02    21
+ 9     9     2 2024-02-03    24
+10    10     2 2024-02-04    27
+11    11     3 2024-02-05    NA
+12    12     3 2024-02-06    NA
+13    13     3 2024-02-07    36
+14    14     3 2024-02-08    39
+15    15     3 2024-02-09    42
+16    16     4 2024-02-10    NA
+17    17     4 2024-02-11    NA
+18    18     4 2024-02-12    51
+19    19     4 2024-02-13    54
+20    20     4 2024-02-14    57</code></pre>
 </div>
 </div>
 </section>
-<section id="extra" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
-<h2>Extra</h2>
+<section id="more-helpers" class="slide level2 smaller" data-background-color="white" data-background-image="clock2.jpg">
+<h2>More helpers</h2>
 <div class="panel-tabset smaller" data-background-image="clock2.jpg">
 <ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">time_seq</a></li><li><a href="#tabset-2-2">time_diff</a></li><li><a href="#tabset-2-3">group_id</a></li><li><a href="#tabset-2-4">time_elapsed</a></li><li><a href="#tabset-2-5">time_breaks</a></li><li><a href="#tabset-2-6">time_seq_id</a></li></ul>
 <div class="tab-content smaller" data-background-image="clock2.jpg">
 <div id="tabset-2-1">
 <p><code>time_seq()</code> is like <code>seq()</code> but can accept a mix of dates and date-times</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>today <span class="ot">&lt;-</span> <span class="fu">today</span>()</span>
-<span id="cb51-2"><a href="#cb51-2"></a>next_week <span class="ot">&lt;-</span> <span class="fu">as_datetime</span>(today <span class="sc">+</span> <span class="fu">dweeks</span>(<span class="dv">1</span>))</span>
-<span id="cb51-3"><a href="#cb51-3"></a><span class="fu">time_seq</span>(today, next_week, <span class="st">"days"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a>today <span class="ot">&lt;-</span> <span class="fu">today</span>()</span>
+<span id="cb55-2"><a href="#cb55-2"></a>next_week <span class="ot">&lt;-</span> <span class="fu">as_datetime</span>(today <span class="sc">+</span> <span class="fu">dweeks</span>(<span class="dv">1</span>))</span>
+<span id="cb55-3"><a href="#cb55-3"></a><span class="fu">time_seq</span>(today, next_week, <span class="st">"days"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2024-01-25 UTC" "2024-01-26 UTC" "2024-01-27 UTC" "2024-01-28 UTC"
-[5] "2024-01-29 UTC" "2024-01-30 UTC" "2024-01-31 UTC" "2024-02-01 UTC"</code></pre>
+<pre><code>[1] "2024-01-26 UTC" "2024-01-27 UTC" "2024-01-28 UTC" "2024-01-29 UTC"
+[5] "2024-01-30 UTC" "2024-01-31 UTC" "2024-02-01 UTC" "2024-02-02 UTC"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="fu">seq</span>(today, next_week, <span class="st">"days"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="fu">seq</span>(today, next_week, <span class="st">"days"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in seq.Date(today, next_week, "days"): 'to' must be a "Date" object</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="co"># Vectorised version</span></span>
-<span id="cb55-2"><a href="#cb55-2"></a><span class="fu">time_seq_v</span>(today, next_week, <span class="fu">list</span>(<span class="at">days =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)) <span class="co"># from/to/by </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="co"># Vectorised version</span></span>
+<span id="cb59-2"><a href="#cb59-2"></a><span class="fu">time_seq_v</span>(today, next_week, <span class="fu">list</span>(<span class="at">days =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)) <span class="co"># from/to/by </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "2024-01-25 UTC" "2024-01-26 UTC" "2024-01-27 UTC" "2024-01-28 UTC"
- [5] "2024-01-29 UTC" "2024-01-30 UTC" "2024-01-31 UTC" "2024-02-01 UTC"
- [9] "2024-01-25 UTC" "2024-01-27 UTC" "2024-01-29 UTC" "2024-01-31 UTC"
-[13] "2024-01-25 UTC" "2024-01-28 UTC" "2024-01-31 UTC"</code></pre>
+<pre><code> [1] "2024-01-26 UTC" "2024-01-27 UTC" "2024-01-28 UTC" "2024-01-29 UTC"
+ [5] "2024-01-30 UTC" "2024-01-31 UTC" "2024-02-01 UTC" "2024-02-02 UTC"
+ [9] "2024-01-26 UTC" "2024-01-28 UTC" "2024-01-30 UTC" "2024-02-01 UTC"
+[13] "2024-01-26 UTC" "2024-01-29 UTC" "2024-02-01 UTC"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="fu">time_seq_v2</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">from =</span> today, <span class="at">time_by =</span> <span class="st">"days"</span>) <span class="sc">|&gt;</span> <span class="co"># length/from/by</span></span>
-<span id="cb57-2"><a href="#cb57-2"></a>  <span class="fu">setNames</span>(<span class="fu">seq_id</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a><span class="fu">time_seq_v2</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">from =</span> today, <span class="at">time_by =</span> <span class="st">"days"</span>) <span class="sc">|&gt;</span> <span class="co"># length/from/by</span></span>
+<span id="cb61-2"><a href="#cb61-2"></a>  <span class="fu">setNames</span>(<span class="fu">seq_id</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           1            2            2            3            3            3 
-"2024-01-25" "2024-01-25" "2024-01-26" "2024-01-25" "2024-01-26" "2024-01-27" </code></pre>
+"2024-01-26" "2024-01-26" "2024-01-27" "2024-01-26" "2024-01-27" "2024-01-28" </code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-2-2">
 <p>A convenience function to calculate time differences</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a>today <span class="ot">&lt;-</span> <span class="fu">today</span>()</span>
-<span id="cb59-2"><a href="#cb59-2"></a>next_year <span class="ot">&lt;-</span> today <span class="sc">+</span> <span class="fu">years</span>(<span class="dv">1</span>)</span>
-<span id="cb59-3"><a href="#cb59-3"></a><span class="fu">time_diff</span>(today, next_year, <span class="at">time_by =</span> <span class="st">"days"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a>today <span class="ot">&lt;-</span> <span class="fu">today</span>()</span>
+<span id="cb63-2"><a href="#cb63-2"></a>next_year <span class="ot">&lt;-</span> today <span class="sc">+</span> <span class="fu">years</span>(<span class="dv">1</span>)</span>
+<span id="cb63-3"><a href="#cb63-3"></a><span class="fu">time_diff</span>(today, next_year, <span class="at">time_by =</span> <span class="st">"days"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 366</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a><span class="co"># Compared to lubridate</span></span>
-<span id="cb61-2"><a href="#cb61-2"></a><span class="fu">mark</span>(<span class="fu">time_diff</span>(flights<span class="sc">$</span>time_hour, <span class="fu">today</span>(), <span class="st">"years"</span>),</span>
-<span id="cb61-3"><a href="#cb61-3"></a>     <span class="fu">interval</span>(flights<span class="sc">$</span>time_hour, <span class="fu">today</span>()) <span class="sc">/</span> <span class="fu">years</span>(<span class="dv">1</span>), </span>
-<span id="cb61-4"><a href="#cb61-4"></a>     <span class="at">min_iterations =</span> <span class="dv">3</span>)</span>
-<span id="cb61-5"><a href="#cb61-5"></a><span class="co">#&gt; Warning: Some expressions had a GC in every iteration; so filtering is</span></span>
-<span id="cb61-6"><a href="#cb61-6"></a><span class="co">#&gt; disabled.</span></span>
-<span id="cb61-7"><a href="#cb61-7"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
-<span id="cb61-8"><a href="#cb61-8"></a><span class="co">#&gt;   expression                            min  median `itr/sec` mem_alloc `gc/sec`</span></span>
-<span id="cb61-9"><a href="#cb61-9"></a><span class="co">#&gt;   &lt;bch:expr&gt;                        &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;</span></span>
-<span id="cb61-10"><a href="#cb61-10"></a><span class="co">#&gt; 1 "time_diff(flights$time_hour, to… 15.43ms 16.16ms    50.7      20.9MB     7.80</span></span>
-<span id="cb61-11"><a href="#cb61-11"></a><span class="co">#&gt; 2 "interval(flights$time_hour, tod…   1.32s   1.32s     0.758   654.9MB     6.57</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a><span class="co"># Compared to lubridate</span></span>
+<span id="cb65-2"><a href="#cb65-2"></a><span class="fu">mark</span>(<span class="fu">time_diff</span>(flights<span class="sc">$</span>time_hour, <span class="fu">today</span>(), <span class="st">"years"</span>),</span>
+<span id="cb65-3"><a href="#cb65-3"></a>     <span class="fu">interval</span>(flights<span class="sc">$</span>time_hour, <span class="fu">today</span>()) <span class="sc">/</span> <span class="fu">years</span>(<span class="dv">1</span>), </span>
+<span id="cb65-4"><a href="#cb65-4"></a>     <span class="at">min_iterations =</span> <span class="dv">3</span>)</span>
+<span id="cb65-5"><a href="#cb65-5"></a><span class="co">#&gt; Warning: Some expressions had a GC in every iteration; so filtering is</span></span>
+<span id="cb65-6"><a href="#cb65-6"></a><span class="co">#&gt; disabled.</span></span>
+<span id="cb65-7"><a href="#cb65-7"></a><span class="co">#&gt; # A tibble: 2 × 6</span></span>
+<span id="cb65-8"><a href="#cb65-8"></a><span class="co">#&gt;   expression                            min  median `itr/sec` mem_alloc `gc/sec`</span></span>
+<span id="cb65-9"><a href="#cb65-9"></a><span class="co">#&gt;   &lt;bch:expr&gt;                        &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;</span></span>
+<span id="cb65-10"><a href="#cb65-10"></a><span class="co">#&gt; 1 "time_diff(flights$time_hour, to… 15.43ms 16.16ms    50.7      20.9MB     7.80</span></span>
+<span id="cb65-11"><a href="#cb65-11"></a><span class="co">#&gt; 2 "interval(flights$time_hour, tod…   1.32s   1.32s     0.758   654.9MB     6.57</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-2-3">
 <p><code>group_id()</code> assigns each group a unique id and can be useful to use interactively</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>iris <span class="sc">|&gt;</span> </span>
-<span id="cb62-2"><a href="#cb62-2"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">group_id</span>(Species)) <span class="sc">|&gt;</span></span>
-<span id="cb62-3"><a href="#cb62-3"></a>  <span class="fu">distinct</span>(Species, id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb66-2"><a href="#cb66-2"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">group_id</span>(Species)) <span class="sc">|&gt;</span></span>
+<span id="cb66-3"><a href="#cb66-3"></a>  <span class="fu">distinct</span>(Species, id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Species id
 1     setosa  1
@@ -1170,30 +1189,30 @@ By default, durations are used for anything more granular than a day, and period
 <div id="tabset-2-4">
 <p>An enhanced <code>diff()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb64-2"><a href="#cb64-2"></a>y <span class="ot">&lt;-</span> <span class="fu">time_seq</span>(today, <span class="at">len =</span> <span class="dv">20</span>, <span class="at">time_by =</span> <span class="st">"weeks"</span>)</span>
-<span id="cb64-3"><a href="#cb64-3"></a><span class="fu">diff</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb68-2"><a href="#cb68-2"></a>y <span class="ot">&lt;-</span> <span class="fu">time_seq</span>(today, <span class="at">len =</span> <span class="dv">20</span>, <span class="at">time_by =</span> <span class="st">"weeks"</span>)</span>
+<span id="cb68-3"><a href="#cb68-3"></a><span class="fu">diff</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 1 1 1 1 1 1 1 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a><span class="fu">time_elapsed</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a><span class="fu">time_elapsed</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] NA  1  1  1  1  1  1  1  1  1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a><span class="fu">diff</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="fu">diff</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time differences in days
  [1] 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a><span class="fu">time_elapsed</span>(y, <span class="st">"weeks"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a><span class="fu">time_elapsed</span>(y, <span class="st">"weeks"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] NA  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="fu">time_elapsed</span>(y, <span class="st">"days"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a><span class="fu">time_elapsed</span>(y, <span class="st">"days"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] NA  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a><span class="fu">time_elapsed</span>(y, <span class="st">"weeks"</span>, <span class="at">rolling =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a><span class="fu">time_elapsed</span>(y, <span class="st">"weeks"</span>, <span class="at">rolling =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19</code></pre>
 </div>
@@ -1202,19 +1221,19 @@ By default, durations are used for anything more granular than a day, and period
 <div id="tabset-2-5">
 <p>A function that prioritises pretty-looking breaks</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a><span class="fu">time_breaks</span>(flights<span class="sc">$</span>time_hour)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a><span class="fu">time_breaks</span>(flights<span class="sc">$</span>time_hour)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2013-01-01 05:00:00 EST" "2013-04-01 05:00:00 EDT"
 [3] "2013-07-01 05:00:00 EDT" "2013-10-01 05:00:00 EDT"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a><span class="fu">time_breaks</span>(flights<span class="sc">$</span>time_hour, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a><span class="fu">time_breaks</span>(flights<span class="sc">$</span>time_hour, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2013-01-01 05:00:00 EST" "2013-03-01 05:00:00 EST"
 [3] "2013-05-01 05:00:00 EDT" "2013-07-01 05:00:00 EDT"
 [5] "2013-09-01 05:00:00 EDT" "2013-11-01 05:00:00 EDT"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a><span class="fu">time_cut</span>(flights<span class="sc">$</span>date, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">as_interval =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb80-2"><a href="#cb80-2"></a>  <span class="fu">interval_count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a><span class="fu">time_cut</span>(flights<span class="sc">$</span>date, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">as_interval =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb84-2"><a href="#cb84-2"></a>  <span class="fu">interval_count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
                   interval     n
@@ -1231,17 +1250,17 @@ By default, durations are used for anything more granular than a day, and period
 <div id="tabset-2-6">
 <p>Identify breaks in a sequence using e.g.&nbsp;<code>time_seq_id</code> <code>time_is_regular</code>, <code>time_num_gaps</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(flights<span class="sc">$</span>time_hour))</span>
-<span id="cb82-2"><a href="#cb82-2"></a><span class="fu">time_is_regular</span>(hours)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(flights<span class="sc">$</span>time_hour))</span>
+<span id="cb86-2"><a href="#cb86-2"></a><span class="fu">time_is_regular</span>(hours)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a><span class="fu">time_is_regular</span>(hours, <span class="at">allow_gaps =</span> <span class="cn">FALSE</span>, <span class="at">allow_dups =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1"></a><span class="fu">time_is_regular</span>(hours, <span class="at">allow_gaps =</span> <span class="cn">FALSE</span>, <span class="at">allow_dups =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a>id <span class="ot">&lt;-</span> <span class="fu">time_seq_id</span>(hours, <span class="at">time_by =</span> <span class="st">"hours"</span>, <span class="at">threshold =</span> <span class="dv">5</span>) <span class="co"># &gt;5 hours</span></span>
-<span id="cb86-2"><a href="#cb86-2"></a><span class="fu">head</span>(hours[id <span class="sc">!=</span> <span class="fu">lead</span>(id)], <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1"></a>id <span class="ot">&lt;-</span> <span class="fu">time_seq_id</span>(hours, <span class="at">time_by =</span> <span class="st">"hours"</span>, <span class="at">threshold =</span> <span class="dv">5</span>) <span class="co"># &gt;5 hours</span></span>
+<span id="cb90-2"><a href="#cb90-2"></a><span class="fu">head</span>(hours[id <span class="sc">!=</span> <span class="fu">lead</span>(id)], <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "2013-01-01 23:00:00 EST" "2013-01-02 23:00:00 EST"
  [3] "2013-01-03 23:00:00 EST" "2013-01-04 23:00:00 EST"
@@ -1249,7 +1268,7 @@ By default, durations are used for anything more granular than a day, and period
  [7] "2013-01-07 23:00:00 EST" "2013-01-08 23:00:00 EST"
  [9] "2013-01-09 23:00:00 EST" "2013-01-10 23:00:00 EST"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1"></a><span class="fu">time_num_gaps</span>(hours)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1"></a><span class="fu">time_num_gaps</span>(hours)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1819</code></pre>
 </div>
@@ -1258,8 +1277,313 @@ By default, durations are used for anything more granular than a day, and period
 </div>
 </div>
 </section>
+<section id="fast-dplyr-alternatives" class="slide level2 smaller" data-background-color="white" data-background-image="clock2.jpg">
+<h2>Fast dplyr alternatives</h2>
+<p>timeplyr has a set of fast dplyr alternative functions, which will likely be moved to a package of their own</p>
+<div class="panel-tabset smaller">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">fgroup_by</a></li><li><a href="#tabset-3-2">fcount</a></li><li><a href="#tabset-3-3">fslice</a></li><li><a href="#tabset-3-4">fdistinct</a></li><li><a href="#tabset-3-5">duplicate_rows</a></li></ul>
+<div class="tab-content smaller">
+<div id="tabset-3-1">
+<p>This is very similar to <code>dplyr::group_by</code> except for an attribute <code>sorted</code> that specifies whether the groups are sorted normally or sorted in order-of-first appearance. This is analogous to the difference between the <code>by</code> and <code>keyby</code> construct in data.table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb94-2"><a href="#cb94-2"></a>  <span class="fu">fgroup_by</span>(month) <span class="sc">|&gt;</span> </span>
+<span id="cb94-3"><a href="#cb94-3"></a>  <span class="fu">summarise</span>(<span class="at">number_of_flights =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   month number_of_flights
+   &lt;int&gt;             &lt;int&gt;
+ 1     1             27004
+ 2     2             24951
+ 3     3             28834
+ 4     4             28330
+ 5     5             28796
+ 6     6             28243
+ 7     7             29425
+ 8     8             29327
+ 9     9             27574
+10    10             28889
+11    11             27268
+12    12             28135</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb96-2"><a href="#cb96-2"></a>  <span class="fu">fgroup_by</span>(month, <span class="at">order =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb96-3"><a href="#cb96-3"></a>  <span class="fu">summarise</span>(<span class="at">number_of_flights =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   month number_of_flights
+   &lt;int&gt;             &lt;int&gt;
+ 1     1             27004
+ 2    10             28889
+ 3    11             27268
+ 4    12             28135
+ 5     2             24951
+ 6     3             28834
+ 7     4             28330
+ 8     5             28796
+ 9     6             28243
+10     7             29425
+11     8             29327
+12     9             27574</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1"></a><span class="co"># Same as..</span></span>
+<span id="cb98-2"><a href="#cb98-2"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb98-3"><a href="#cb98-3"></a>  <span class="fu">summarise</span>(<span class="at">number_of_flights =</span> <span class="fu">n</span>(), <span class="at">.by =</span> month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   month number_of_flights
+   &lt;int&gt;             &lt;int&gt;
+ 1     1             27004
+ 2    10             28889
+ 3    11             27268
+ 4    12             28135
+ 5     2             24951
+ 6     3             28834
+ 7     4             28330
+ 8     5             28796
+ 9     6             28243
+10     7             29425
+11     8             29327
+12     9             27574</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb100-2"><a href="#cb100-2"></a>    <span class="fu">fcount</span>(<span class="fu">across</span>(<span class="fu">where</span>(is_time)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,936 × 3
+   time_hour           date           n
+   &lt;dttm&gt;              &lt;date&gt;     &lt;int&gt;
+ 1 2013-01-01 05:00:00 2013-01-01     6
+ 2 2013-01-01 06:00:00 2013-01-01    52
+ 3 2013-01-01 07:00:00 2013-01-01    49
+ 4 2013-01-01 08:00:00 2013-01-01    58
+ 5 2013-01-01 09:00:00 2013-01-01    56
+ 6 2013-01-01 10:00:00 2013-01-01    39
+ 7 2013-01-01 11:00:00 2013-01-01    37
+ 8 2013-01-01 12:00:00 2013-01-01    56
+ 9 2013-01-01 13:00:00 2013-01-01    54
+10 2013-01-01 14:00:00 2013-01-01    48
+# ℹ 6,926 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb102-2"><a href="#cb102-2"></a>  <span class="fu">fcount</span>(<span class="at">.cols =</span> <span class="st">"origin"</span>, <span class="at">order =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  origin      n
+  &lt;chr&gt;   &lt;int&gt;
+1 EWR    120835
+2 LGA    104662
+3 JFK    111279</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-3">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1"></a><span class="co"># 1st row of each destination</span></span>
+<span id="cb104-2"><a href="#cb104-2"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb104-3"><a href="#cb104-3"></a>  <span class="fu">fslice</span>(<span class="dv">1</span>, <span class="at">.by =</span> dest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 105 × 20
+    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+ 1  2013    10     1     1955           2001        -6     2213           2248
+ 2  2013    10     1     1149           1159       -10     1245           1259
+ 3  2013     1     1     1315           1317        -2     1413           1423
+ 4  2013     7     6     1629           1615        14     1954           1953
+ 5  2013     1     1      554            600        -6      812            837
+ 6  2013     1     1      905            905         0     1309           1229
+ 7  2013     1     1      946            959       -13     1146           1202
+ 8  2013     1     1     1318           1322        -4     1358           1416
+ 9  2013    10     1     1338           1105       153     1446           1245
+10  2013     1     2     2044           2005        39     2229           2158
+# ℹ 95 more rows
+# ℹ 12 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+#   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+#   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, date &lt;date&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb106-2"><a href="#cb106-2"></a>  <span class="fu">fslice_head</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">.by =</span> dest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 105 × 20
+    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+ 1  2013    10     1     1955           2001        -6     2213           2248
+ 2  2013    10     1     1149           1159       -10     1245           1259
+ 3  2013     1     1     1315           1317        -2     1413           1423
+ 4  2013     7     6     1629           1615        14     1954           1953
+ 5  2013     1     1      554            600        -6      812            837
+ 6  2013     1     1      905            905         0     1309           1229
+ 7  2013     1     1      946            959       -13     1146           1202
+ 8  2013     1     1     1318           1322        -4     1358           1416
+ 9  2013    10     1     1338           1105       153     1446           1245
+10  2013     1     2     2044           2005        39     2229           2158
+# ℹ 95 more rows
+# ℹ 12 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+#   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+#   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, date &lt;date&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1"></a><span class="co"># Last row of each destination</span></span>
+<span id="cb108-2"><a href="#cb108-2"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb108-3"><a href="#cb108-3"></a>  <span class="fu">fslice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">.by =</span> dest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 105 × 20
+    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+ 1  2013     9    30     1959           2001        -2     2209           2248
+ 2  2013     9    30     1156           1159        -3     1253           1259
+ 3  2013     9    24     2151           2159        -8     2240           2303
+ 4  2013     8    24     1633           1625         8     1959           2003
+ 5  2013     9    30     2053           1815       158     2310           2054
+ 6  2013     9    30     2052           2054        -2     2306           2358
+ 7  2013     9    30     1641           1638         3     1833           1829
+ 8  2013     9    28      741            738         3      823            835
+ 9  2013     9    30     2203           2205        -2     2339           2331
+10  2013     9    30     1939           1950       -11     2112           2141
+# ℹ 95 more rows
+# ℹ 12 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+#   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+#   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, date &lt;date&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1"></a><span class="co"># Random 10% of flights by origin airport</span></span>
+<span id="cb110-2"><a href="#cb110-2"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb110-3"><a href="#cb110-3"></a>  <span class="fu">fgroup_by</span>(origin, <span class="at">order =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb110-4"><a href="#cb110-4"></a>  <span class="fu">fslice_sample</span>(<span class="at">prop =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33,676 × 20
+# Groups:   origin [3]
+    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+ 1  2013    11    23      714            615        59     1013            915
+ 2  2013    12     6     1820           1710        70     2134           2021
+ 3  2013     6     2     1733           1729         4     2032           2016
+ 4  2013     5    27     1020           1030       -10     1200           1230
+ 5  2013    10    28     1146           1140         6     1429           1430
+ 6  2013    12    18     1454           1459        -5     1633           1654
+ 7  2013    10     3     1851           1855        -4     2205           2200
+ 8  2013     6    21     1545           1528        17     1831           1855
+ 9  2013     3    25     1653           1523        90     1753           1636
+10  2013     3     1      648            649        -1      830            912
+# ℹ 33,666 more rows
+# ℹ 12 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+#   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+#   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, date &lt;date&gt;</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-4">
+<p><code>fdistinct</code> has a native <code>sort</code> option</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb112-2"><a href="#cb112-2"></a>  <span class="fu">distinct</span>(month) <span class="sc">|&gt;</span> </span>
+<span id="cb112-3"><a href="#cb112-3"></a>  <span class="fu">arrange</span>(month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 1
+   month
+   &lt;int&gt;
+ 1     1
+ 2     2
+ 3     3
+ 4     4
+ 5     5
+ 6     6
+ 7     7
+ 8     8
+ 9     9
+10    10
+11    11
+12    12</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb114-2"><a href="#cb114-2"></a>  <span class="fu">fdistinct</span>(month, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 1
+   month
+   &lt;int&gt;
+ 1     1
+ 2     2
+ 3     3
+ 4     4
+ 5     5
+ 6     6
+ 7     7
+ 8     8
+ 9     9
+10    10
+11    11
+12    12</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-5">
+<p>This is sort of the inverse of <code>fdistinct</code> and allows us to find duplicate rows very quickly</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb116-2"><a href="#cb116-2"></a>  <span class="fu">duplicate_rows</span>() <span class="co"># No duplicate rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 × 20
+# ℹ 20 variables: year &lt;int&gt;, month &lt;int&gt;, day &lt;int&gt;, dep_time &lt;int&gt;,
+#   sched_dep_time &lt;int&gt;, dep_delay &lt;dbl&gt;, arr_time &lt;int&gt;,
+#   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+#   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+#   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, date &lt;date&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb118-2"><a href="#cb118-2"></a>  <span class="fu">duplicate_rows</span>(origin, dest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 336,552 × 2
+   origin dest 
+   &lt;chr&gt;  &lt;chr&gt;
+ 1 LGA    ATL  
+ 2 EWR    MIA  
+ 3 EWR    ORD  
+ 4 LGA    IAH  
+ 5 LGA    MSP  
+ 6 JFK    SJU  
+ 7 LGA    ORD  
+ 8 LGA    DFW  
+ 9 JFK    BOS  
+10 EWR    PBI  
+# ℹ 336,542 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb120-2"><a href="#cb120-2"></a>  <span class="fu">duplicate_rows</span>(origin, dest, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 336,552 × 2
+   origin dest 
+   &lt;chr&gt;  &lt;chr&gt;
+ 1 EWR    ALB  
+ 2 EWR    ALB  
+ 3 EWR    ALB  
+ 4 EWR    ALB  
+ 5 EWR    ALB  
+ 6 EWR    ALB  
+ 7 EWR    ALB  
+ 8 EWR    ALB  
+ 9 EWR    ALB  
+10 EWR    ALB  
+# ℹ 336,542 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="final-thoughts" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
+<h2>Final thoughts</h2>
+<p>There is still a lot of room to develop tools centred around time analysis with timeplyr offering a fast, clean and user-friendly interface to dealing with large longitudinal data. </p>
+<p>timeplyr, which was initially my personal playground to learn more about R and package development, will hopefully continue to develop and become a routine part of other analysts’ toolkits</p>
+</section>
 <section id="credits" class="slide level2" data-background-color="white" data-background-image="clock2.jpg">
 <h2>Credits</h2>
+<div class="smaller">
+<p>The R core team <a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a></p>
+<p>The tidyverse team <a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a></p>
+<p>The data.table Devs <a href="https://rdatatable.gitlab.io/data.table/" class="uri">https://rdatatable.gitlab.io/data.table/</a></p>
+<p>The collapse Devs <a href="https://sebkrantz.github.io/collapse/" class="uri">https://sebkrantz.github.io/collapse/</a></p>
+</div>
 
 <div class="footer footer-default">
 
